@@ -1,14 +1,20 @@
 .clock {
-	border: 2px solid black;
-	width: 400px;
-	height: 400px;
-	border-radius: 400px;
-	margin: 50px auto;
+  border: 2px solid black;
+  width: 400px;
+  height: 400px;
+  border-radius: 400px;
+  margin: 50px auto;
 }
 
 .timer {
-	text-align: center;
-	margin-top: 120px;
+  text-align: center;
+  margin-top: 120px;
 }
 
-.row {text-align: center}
+.row {
+  text-align: center
+}
+
+.clock {
+  cursor: pointer;
+}
