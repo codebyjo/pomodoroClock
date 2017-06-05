@@ -1,13 +1,12 @@
 $(document).ready(function () {
 
-  var countHours = 0;
-  var countMinutes = 0;
-  var countSeconds = 39 + 1; // Need to add 1 as countdown will subtract 1 before displaying.
-  var originalHour = countHours;
-  var originalMinute = countMinutes;
-  var originalSeconds = countSeconds;
-  var timer = null;
-  var paused = false;
+  var breakLength = 300; // 300 = 5 minutes. original break time
+  var sessionLength = 1500; // 1500 = 25 minutes,original time, default time
+  var sessionActive = true; // If true, work time is active. if false, break time is active.
+  var timer = null; // will hold the setInterval function or clear it.
+  var paused = true; // this is for the pause/continue button
+  var timecopy = sessionLength; // will hold the original time value for the reset button.
+  var breakcopy = breakLength; // will hold the original break value for the reset button.
 
   $("#pause").click(function () {
 
@@ -16,54 +15,33 @@ $(document).ready(function () {
     } else {
       paused = true;
     }
-    
+
   });
-  
+
+  // Press to restart
   $("#reset").click(function () { //Reset function
-
-    countHours = originalHour;
-    countMinutes = originalMinute;
-    countSeconds = originalSeconds;
+    sessionLength = timecopy;
+    $("#clock-data h3").html(sessionLength);
     clearInterval(timer);
-    $("#clock-data h3").html(countHours + ":" + countMinutes + ":" + (countSeconds - 1));
-
     countdown();
-
   });
 
-
+  //calling to start the countdown
   countdown();
 
-
   function countdown() {
-    console.log("READY");
 
     timer = setInterval(function () { // I feel like this takes an extra second before executing (visible second mismatch? OR is it taking that extra second added in countSeconds?);
 
       if (!paused) {
 
-        countSeconds -= 1
-        $("#clock-data h3").html(countHours + ":" + countMinutes + ":" + countSeconds);
+        if (sessionActive) {
+          sessionLength -= 1;
+          // convert to
+          $("#clock-data h3").html(sessionLength);
+        }
 
-        console.log(countHours, countMinutes, countSeconds);
-
-        if (countSeconds == 0) {
-
-          if (countMinutes == 0) {
-
-            if (countHours == 0) {
-              clearInterval(timer);
-              onEndClock();
-            } else {
-              countSeconds = 60;
-              countMinutes = 59;
-              countHours -= 1;
-            }
-
-          } else {
-            countSeconds = 60;
-            countMinutes -= 1;
-          }
+        if (!sessionActive) {
 
         }
 
@@ -71,10 +49,16 @@ $(document).ready(function () {
 
     }, 1000);
 
-    function onEndClock() {
-      console.log("FINISHED!");
-    }
-
   }
+
+  function onEndClock() {
+    console.log("FINISHED! START THE BREAK TIMER");
+    sessionActive = false;
+  }
+
+  //switch between work and break times
+  // when work finished, switch to break, vice versa
+  //reset button
+  //buzzer when timer finishes
 
 });
