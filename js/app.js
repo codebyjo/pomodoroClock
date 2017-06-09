@@ -12,8 +12,12 @@ $(document).ready(function () {
 
     if (paused) {
       paused = false;
+      $("#pause p").html("Pause");
+      $("#pause").css("background-color", "#bdc3c7");
     } else {
       paused = true;
+      $("#pause p").html("Play");
+      $("#pause").css("background-color", "#2ecc71");
     }
 
   });

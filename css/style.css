@@ -1,9 +1,17 @@
+@import url('https://fonts.googleapis.com/css?family=Bree+Serif');
+
+body {
+  font-family: 'Bree Serif', serif;
+  background-color: #ecf0f1;
+  color: #2c3e50;
+}
+
 .clock {
-  border: 2px solid black;
   width: 400px;
-  height: 400px;
-  border-radius: 400px;
+  height: 100px;
+  border-radius: 100px;
   margin: 50px auto;
+  cursor: pointer;
 }
 
 .timer {
@@ -15,6 +23,20 @@
   text-align: center
 }
 
-.clock {
-  cursor: pointer;
+#pause {
+  background-color: #2ecc71;
+}
+
+#reset {
+  background-color: #e74c3c;
+}
+
+#pause p, #reset p {
+  font-size: 4em;
+  color: white;
+  padding-top: 5px;
+}
+
+#title {
+  font-size: 7.5em;
 }
