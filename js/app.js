@@ -3,6 +3,8 @@ $(document).ready(function () {
   var breakLength = 300; // 300 = 5 minutes. original break time
   var sessionLength = 1500; // 1500 = 25 minutes,original time, default time
   var sessionActive = true; // If true, work time is active. if false, break time is active.
+  var leftoverSeconds;
+  var minute;
   var timer = null; // will hold the setInterval function or clear it.
   var paused = true; // this is for the pause/continue button
   var timecopy = sessionLength; // will hold the original time value for the reset button.
@@ -41,8 +43,11 @@ $(document).ready(function () {
 
         if (sessionActive) {
           sessionLength -= 1;
-          // convert to
-          $("#clock-data h3").html(sessionLength);
+
+          minute = Math.floor(sessionLength / 60);
+          leftoverSeconds = sessionLength % 60;
+
+          $("#clock-data h3").html(`${minute}:${leftoverSeconds}`);
         }
 
         if (!sessionActive) {

@@ -40,3 +40,7 @@ body {
 #title {
   font-size: 7.5em;
 }
+
+#clock-data h3 {
+  font-size: 6em;
+}
