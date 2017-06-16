@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Bree+Serif');
+@import url('https://fonts.googleapis.com/css?family=Bree+Serif|Nova+Mono');
 
 body {
   font-family: 'Bree Serif', serif;
@@ -43,4 +43,6 @@ body {
 
 #clock-data h3 {
   font-size: 6em;
+  font-family: 'Nova Mono', monospace;
+  font-weight: 600;
 }

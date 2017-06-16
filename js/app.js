@@ -47,7 +47,7 @@ $(document).ready(function () {
           minute = Math.floor(sessionLength / 60);
           leftoverSeconds = sessionLength % 60;
 
-          $("#clock-data h3").html(`${minute}:${leftoverSeconds}`);
+          $("#clock-data h3").html( ("00" + minute).substr(-2,2) + ":" + ("00" + leftoverSeconds).substr(-2,2) );
         }
 
         if (!sessionActive) {
@@ -65,78 +65,9 @@ $(document).ready(function () {
     sessionActive = false;
   }
 
-
   //switch between work and break times
   // when work finished, switch to break, vice versa
-  //play sound
-
-  function switchSession(playsound) {
-    if (playsound) {
-      var buzzer = new Audio('../buzzer.mp3');
-      buzzer.play();
-    }
-
-    if (sessionActive) {
-      timeLeft = breakLength;
-      leftoverSeconds = false;
-    } else {
-      leftoverSeconds = sessionLength;
-      sessionActive = true;
-    }
-  }
-
-
   //reset button
   //buzzer when timer finishes
 
-  // Displaying session length and break length.
- 
-  function updateTimerLengths() {
-    if (sessionLength < 0) {
-      sessionLength = 0;
-    }
-
-    if (breakLength < 0) {
-      breakLength = 0;
-    }
-    $('#sessionNumber').html(sessionLength);
-    $('#breakNumber').html(breakLength);
-  }
-
-    //  Adjusting time on plus minus buttons
-
-  function iClickHandler(id) {
-    switch (id) {
-      case 'sessionPlus':
-        sessionlength + 1;
-        if (sessionActive) {
-          timeCopy + 1;
-        }
-        break;
-      case 'sessionMinus':
-        sessionlength - 1
-        if (sessionActive) {
-          timeCopy - 1;
-        }
-        break;
-      case 'breakPlus':
-        breakLength + 1;
-        if (!sessionActive) {
-          breakCopy + 1;
-        }
-        break;
-      case 'breakMinus':
-        breakLength - 1;
-        if (!sessionActive) {
-          breakCopy - 1;
-        }
-        break;
-    }
-
-    $('#sessionNumber').html(sessionLength);
-    $('#breakNumber').html(breakLength);
-    // Adjust timer
-  }
-
 });
-
