@@ -1,14 +1,13 @@
 $(document).ready(function () {
 
-  var breakLength = 300; // 300 = 5 minutes. original break time
-  var sessionLength = 1500; // 1500 = 25 minutes,original time, default time
+  var breakLength = 10; // 300 = 5 minutes. original break time
+  var sessionLength = 20; // 1500 = 25 minutes,original time, default time
   var sessionActive = true; // If true, work time is active. if false, break time is active.
   var leftoverSeconds;
   var minute;
   var timer = null; // will hold the setInterval function or clear it.
   var paused = true; // this is for the pause/continue button
-  var timecopy = sessionLength; // will hold the original time value for the reset button.
-  var breakcopy = breakLength; // will hold the original break value for the reset button.
+  var timecopy = sessionLength;
 
   $("#pause").click(function () {
 
@@ -26,8 +25,9 @@ $(document).ready(function () {
 
   // Press to restart
   $("#reset").click(function () { //Reset function
-    sessionLength = timecopy;
-    $("#clock-data h3").html(sessionLength);
+    sessionActive = true;
+    timecopy = sessionLength;
+    $("#clock-data h3").html(timecopy);
     clearInterval(timer);
     countdown();
   });
@@ -41,17 +41,15 @@ $(document).ready(function () {
 
       if (!paused) {
 
-        if (sessionActive) {
-          sessionLength -= 1;
+        timecopy -= 1;
 
-          minute = Math.floor(sessionLength / 60);
-          leftoverSeconds = sessionLength % 60;
+        minute = Math.floor(timecopy / 60);
+        leftoverSeconds = timecopy % 60;
 
-          $("#clock-data h3").html( ("00" + minute).substr(-2,2) + ":" + ("00" + leftoverSeconds).substr(-2,2) );
-        }
+        $("#clock-data h3").html( ("00" + minute).substr(-2,2) + ":" + ("00" + leftoverSeconds).substr(-2,2) );
 
-        if (!sessionActive) {
-
+        if (timecopy === 0) {
+          onEndClock();
         }
 
       }
@@ -61,13 +59,54 @@ $(document).ready(function () {
   }
 
   function onEndClock() {
-    console.log("FINISHED! START THE BREAK TIMER");
-    sessionActive = false;
+
+    console.log("FINISHED!");
+    var buzzer = new Audio('buzzer.mp3');
+    buzzer.play();
+
+    if (sessionActive) {
+      sessionActive = false;
+      timecopy = breakLength;
+    } else {
+      sessionActive = true;
+      timecopy = sessionLength;
+    }
+
   }
 
-  //switch between work and break times
-  // when work finished, switch to break, vice versa
-  //reset button
-  //buzzer when timer finishes
+    //  Adjusting time on plus minus buttons
+
+  function iClickHandler(id) {
+    switch (id) {
+      case 'sessionPlus':
+        sessionlength + 1;
+        if (sessionActive) {
+          timeCopy + 1;
+        }
+        break;
+      case 'sessionMinus':
+        sessionlength - 1;
+        if (sessionActive) {
+          timeCopy - 1;
+        }
+        break;
+      case 'breakPlus':
+        breakLength + 1;
+        if (!sessionActive) {
+          breakCopy + 1;
+        }
+        break;
+      case 'breakMinus':
+        breakLength - 1;
+        if (!sessionActive) {
+          breakCopy - 1;
+        }
+        break;
+    }
+
+    $('#sessionNumber').html(sessionLength);
+    $('#breakNumber').html(breakLength);
+    // Adjust timer
+  }
 
 });
