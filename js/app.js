@@ -1,13 +1,16 @@
 $(document).ready(function () {
 
-  var breakLength = 10; // 300 = 5 minutes. original break time
-  var sessionLength = 20; // 1500 = 25 minutes,original time, default time
+  var breakLength = 300; // 300 = 5 minutes. original break time
+  var sessionLength = 1500; // 1500 = 25 minutes,original time, default time
   var sessionActive = true; // If true, work time is active. if false, break time is active.
   var leftoverSeconds;
   var minute;
   var timer = null; // will hold the setInterval function or clear it.
   var paused = true; // this is for the pause/continue button
   var timecopy = sessionLength;
+
+  $("#sessionNumber").html(sessionLength / 60);
+  $("#breakNumber").html(breakLength / 60);
 
   $("#pause").click(function () {
 
@@ -27,7 +30,11 @@ $(document).ready(function () {
   $("#reset").click(function () { //Reset function
     sessionActive = true;
     timecopy = sessionLength;
-    $("#clock-data h3").html(timecopy);
+
+    minute = Math.floor(timecopy / 60);
+    leftoverSeconds = timecopy % 60;
+
+    $("#clock-data h3").html( ("00" + minute).substr(-2,2) + ":" + ("00" + leftoverSeconds).substr(-2,2) );
     clearInterval(timer);
     countdown();
   });
@@ -76,37 +83,33 @@ $(document).ready(function () {
 
     //  Adjusting time on plus minus buttons
 
-  function iClickHandler(id) {
-    switch (id) {
-      case 'sessionPlus':
-        sessionlength + 1;
-        if (sessionActive) {
-          timeCopy + 1;
-        }
-        break;
-      case 'sessionMinus':
-        sessionlength - 1;
-        if (sessionActive) {
-          timeCopy - 1;
-        }
-        break;
-      case 'breakPlus':
-        breakLength + 1;
-        if (!sessionActive) {
-          breakCopy + 1;
-        }
-        break;
-      case 'breakMinus':
-        breakLength - 1;
-        if (!sessionActive) {
-          breakCopy - 1;
-        }
-        break;
-    }
+    // Break buttons
+    $("#sessionMinus").click(function () {
 
-    $('#sessionNumber').html(sessionLength);
-    $('#breakNumber').html(breakLength);
-    // Adjust timer
-  }
+      if (sessionLength > 60) {
+        sessionLength -= 60;
+        $("#sessionNumber").html(sessionLength / 60);
+      }
+
+    });
+
+    $("#sessionPlus").click(function () {
+      sessionLength += 60;
+      $("#sessionNumber").html(sessionLength / 60);
+    });
+
+    $("#breakMinus").click(function () {
+
+      if (breakLength > 60) {
+        breakLength -= 60;
+        $("#breakNumber").html(breakLength / 60);
+      }
+
+    });
+
+    $("#breakPlus").click(function () {
+      breakLength += 60;
+      $("#breakNumber").html(breakLength / 60);
+    });
 
 });
